@@ -12,14 +12,14 @@ display f = do
   updateWindow screen $ do
     (nrows, ncols) <- windowSize
     void $ sequence $ do
-      x <- [0 .. nrows - 2]
-      y <- [0 .. ncols - 1]
+      x <- [1 .. nrows - 2]
+      y <- [1 .. ncols - 2]
       pure $ do
         moveCursor x y
         drawString [f x y]
 
 roguelike :: (world -> Integer -> Integer -> Char)
-          -> (world -> Event -> world)
+          -> (world -> Event -> Update world)
           -> world
           -> Integer
           -> Curses ()
@@ -31,5 +31,7 @@ roguelike f e w n = do
   me <- getEvent s (Just n)
   case me of
     Nothing -> roguelike f e w n
-    Just event -> roguelike f e (e w event) n
+    Just event -> do
+      x <- updateWindow s (e w event)
+      roguelike f e x n
 
