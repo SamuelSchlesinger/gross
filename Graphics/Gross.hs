@@ -34,4 +34,3 @@ roguelike f e w n = do
     Just event -> do
       x <- updateWindow s (e w event)
       roguelike f e x n
-
