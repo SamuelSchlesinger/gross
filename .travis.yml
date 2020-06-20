@@ -1,4 +1,7 @@
 language: haskell
+before_install:
+  - sudo apt-get -y install libncurses-dev
+
 ghc:
   - "8.0"
   - "8.2"
